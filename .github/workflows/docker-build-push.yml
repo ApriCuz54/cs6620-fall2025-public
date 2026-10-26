@@ -83,7 +83,7 @@ jobs:
               "docker rm cs6620-app || true",
               ("docker run -d --name cs6620-app --restart unless-stopped -p 80:5000 " + ($image | @sh)),
               "docker ps --filter name=cs6620-app",
-              "curl -fsS --retry 20 --retry-connrefused --retry-delay 2 --max-time 5 http://localhost/health | grep Topic7-Ex3-v2"
+              "for attempt in $(seq 1 30); do if curl -fsS --max-time 5 http://localhost/health | grep -q Topic7-Ex3-v2; then exit 0; fi; sleep 2; done; docker logs --tail 50 cs6620-app; exit 1"
             ]
           }' > parameters.json
 
