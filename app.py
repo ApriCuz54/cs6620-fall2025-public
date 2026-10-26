@@ -147,6 +147,15 @@ def index():
     """
     return render_template('index.html') 
 
+@app.route('/health')
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'version': '2.0',
+        'deployment_method': 'GitHub Actions + AWS SSM',
+        'release': 'Topic7-Ex3-v2'
+    })
+
 @app.route('/select_directory', methods=['POST'])
 def select_directory():
     """
